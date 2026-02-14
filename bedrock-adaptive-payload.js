@@ -12,10 +12,18 @@
 
       if (targets.has(url) && init?.body && typeof init.body === "string") {
         const json = JSON.parse(init.body);
-        if ("model" in json) {
-          delete json.model;
-          init.body = JSON.stringify(json);
-        }
+
+        if ("model" in json) delete json.model;
+        if ("stream" in json) delete json.stream;
+        if ("thinking" in json) delete json.thinking;
+
+        // Add adaptive thinking
+        json.additionalModelRequestFields = {
+          ...(json.additionalModelRequestFields || {}),
+          thinking: { type: "adaptive" },
+        };
+
+        init.body = JSON.stringify(json);
       }
     } catch (_) {}
     return originalFetch(input, init);
