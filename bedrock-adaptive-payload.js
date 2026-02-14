@@ -17,12 +17,6 @@
         if ("stream" in json) delete json.stream;
         if ("thinking" in json) delete json.thinking;
 
-        // Add adaptive thinking
-        json.additionalModelRequestFields = {
-          ...(json.additionalModelRequestFields || {}),
-          thinking: { type: "adaptive" },
-        };
-
         init.body = JSON.stringify(json);
       }
     } catch (_) {}
